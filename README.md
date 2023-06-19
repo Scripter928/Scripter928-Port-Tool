@@ -3,7 +3,12 @@ A simple tool to analyze IP addresses...
 
 #You need to install
 
-Nmap
+-Nmap
 ```
 pip install python-nmap
+```
+
+-Requests
+```
+pip install requests
 ```
