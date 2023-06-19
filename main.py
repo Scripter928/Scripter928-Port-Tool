@@ -1,6 +1,6 @@
 import nmap
 import socket
-import requests #Aún no es usada esta librería, pronto se necesitara para otra parte del codigo...
+import requests 
 
 
 print("""
@@ -13,13 +13,13 @@ print("""
 ╚═══╩══╩╝╚╣╔═╩═╩══╩╝╚═══╩═══╩═══╝╚╝──╚══╩╝╚═╝──╚╝╚══╩══╩═╝
 ──────────║║
 ──────────╚╝
-Github: 
+Github: https://github.com/Scripter928/Scripter928-Port-Tool
 
 Opciones: 
 [1]: Obtener dirección IP de un sitio web...
 [2]: Escanear una dirección IP para obtener los puertos abiertos...
 [3]: Obtener la dirección IP privada de mi dispositivo...
-[4]: Ver host de una dirección IP...
+[4]: Obtener información de una dirección IP... (Ej: Companía, ciudad, país, etc...)
 """)
 opciones = input("Opción: ")
 
@@ -55,6 +55,18 @@ elif opciones == "3":
     print("IP: "+socket.gethostbyname(socket.gethostname()))
 
 elif opciones == "4":
-    print("En desarrollo...")
+    ip_adress = input("Selecciona una dirección IP: ")
+    respuesta = requests.get(f"https://ipapi.co/{ip_adress}/json/").json()
+
+    city = respuesta.get("city", "unkown")
+    pais = respuesta.get("country_name", "unkown")
+    codigo_postal = respuesta.get("postal", "unkown")
+    org = respuesta.get("org", "unkown")
+
+    print(f"""
+País: {pais}
+Ciudad: {city}
+Código postal: {codigo_postal}
+Companía: {org}""")
 else:
     print("Null")
