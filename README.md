@@ -13,4 +13,7 @@ pip install python-nmap
 pip install requests
 ```
 
-
+-Scapy
+```
+pip install scapy
+```
