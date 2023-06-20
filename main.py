@@ -1,6 +1,7 @@
 import nmap
 import socket
 import requests 
+from scapy.all import ARP, Ether, srp
 
 
 print("""
@@ -20,6 +21,7 @@ Opciones:
 [2]: Escanear una dirección IP para obtener los puertos abiertos...
 [3]: Obtener la dirección IP privada de mi dispositivo...
 [4]: Obtener información de una dirección IP... (Ej: Companía, ciudad, país, etc...)
+[5]: Ver toda IP y MAC Adress privada de los dispositivos conectados a nuestra red...
 """)
 opciones = input("Opción: ")
 
@@ -68,5 +70,26 @@ País: {pais}
 Ciudad: {city}
 Código postal: {codigo_postal}
 Companía: {org}""")
+
+elif opciones == "5":
+
+    """
+    Parte de este código fue sacado por la ia de Clyde (Discord)
+    """
+    print("-Ejemplo: 192.168.0.0")
+    valor = input("IP privada: ")
+    # Crea un paquete ARP de broadcast
+    arp = ARP(pdst=f"{valor}/24")
+    ether = Ether(dst="ff:ff:ff:ff:ff:ff")
+    packet = ether/arp
+
+    # Envía el paquete y obtiene una lista de respuestas
+    result = srp(packet, timeout=3, verbose=0)[0]
+
+    # Imprime las direcciones IP y MAC de los dispositivos encontrados
+    print("Dispositivos conectados a tu red:")
+    print("IP\t\t\tMAC Address")
+    for sent, received in result:
+        print(f"{received.psrc}\t\t{received.hwsrc}")
 else:
     print("Null")
